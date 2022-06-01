@@ -1,3 +1,4 @@
+import discord
 import nextcord
 from nextcord.ext import commands
 from nextcord import SlashOption
@@ -24,7 +25,8 @@ class BanView(nextcord.ui.View):
         if self.maps_left <= self.best_of:
             self.first_player_bool = False
             self.second_player_bool = False
-            await interaction.response.edit_message(content='Mapy zostały wybrane!', view=self)
+            embed = discord.Embed(title=':crossed_swords: Mapy zostały wybrane')
+            await interaction.response.edit_message(embed=embed, view=self)
             return
         if interaction.user == self.first_player and self.first_player_bool:
             button.disabled = True
@@ -32,16 +34,21 @@ class BanView(nextcord.ui.View):
             self.first_player_bool = False
             self.second_player_bool = True
             self.maps_left -= 1
-            await interaction.response.edit_message(content=f'Mapa **{button.label}** została zbanowana przez'
-                                                            f' **{interaction.user.display_name}**!', view=self)
+            embed = nextcord.Embed(
+                title=f'Mapa **{button.label}** została zbanowana przez **{interaction.user.display_name}**!',
+                description=f'Kolejny banuje **{self.second_player.display_name}**')
+            await interaction.response.edit_message(embed=embed, view=self)
         elif interaction.user == self.second_player and self.second_player_bool:
             button.disabled = True
             button.style = nextcord.ButtonStyle.danger
             self.first_player_bool = True
             self.second_player_bool = False
             self.maps_left -= 1
-            await interaction.response.edit_message(content=f'Mapa **{button.label}** została zbanowana przez'
-                                                            f' **{interaction.user.display_name}**!', view=self)
+            embed = nextcord.Embed(
+                title=f'Mapa **{button.label}** została zbanowana przez **{interaction.user.display_name}**!',
+                description=f'Kolejny banuje **{self.first_player.display_name}**'
+            )
+            await interaction.response.edit_message(embed=embed, view=self)
         else:
             await interaction.response.send_message('Poczekaj na swoją kolej banowania', ephemeral=True)
 
@@ -116,7 +123,7 @@ class ReactionCommands(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @nextcord.slash_command(name='bans', guild_ids=[955933461959569418], force_global=True)
+    @nextcord.slash_command(name='bans', guild_ids=[955933461959569418, 218510314835148802], force_global=True)
     async def bans(self, interaction: nextcord.Interaction,
                    first_player: nextcord.Member,
                    second_player: nextcord.Member,
@@ -145,9 +152,10 @@ class ReactionCommands(commands.Cog):
             second_player = players[0]
         embed = nextcord.Embed(title='❌ Wybierz mapę do zbanowania',
                                description=f'Pierwszy banuje **{first_player.display_name}**')
+        self.client.add_view(BanView(first_player, second_player, best_of))
         await interaction.response.send_message(embed=embed, view=BanView(first_player, second_player, best_of))
 
-    @nextcord.slash_command(name='who_first', guild_ids=[955933461959569418], force_global=True)
+    @nextcord.slash_command(name='who_first', guild_ids=[955933461959569418, 218510314835148802], force_global=True)
     async def who_first(self,
                         interaction: nextcord.Interaction,
                         first_player: nextcord.Member,
