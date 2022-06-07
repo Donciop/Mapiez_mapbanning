@@ -30,7 +30,7 @@ async def on_ready():
 
 @client.event
 async def on_command_error(ctx, error):
-    if isinstance(error, commands.MissingPermissions):
+    if isinstance(error, nextcord.ext.application_checks.errors.ApplicationMissingPermissions):
         await ctx.send(f'You don\'t have {error.missing_permissions} permission to use this command.', delete_after=5)
 
 client.run(os.getenv('TOKEN'))
