@@ -7,8 +7,7 @@ class MapManager(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @nextcord.slash_command(name='set_bot_channel', guild_ids=[955933461959569418])
-    @application_checks.has_permissions(administrator=True)
+    @nextcord.slash_command(name='set_bot_channel', guild_ids=[955933461959569418, 926435401483309066])
     async def set_bot_channel(self, interaction: nextcord.Interaction):
         collection = await DatabaseSettings.db_connection('Mapiez_Database', 'Channels', interaction=interaction)
         if collection is None:
@@ -128,7 +127,7 @@ class MapManager(commands.Cog):
             games_list = games_list + ':crossed_swords: ' + str(game) + '\n'
 
         await interaction.response.send_message(f'**Available games:** \n{games_list}')
-    #
+
     # @nextcord.slash_command(name='update', guild_ids=[955933461959569418, 218510314835148802], force_global=True)
     # async def update(self, interaction: nextcord.Interaction):
     #     collection = await DatabaseSettings.db_connection('Mapiez_Database', 'Maps', interaction=interaction)
@@ -138,5 +137,40 @@ class MapManager(commands.Cog):
     #                               {'$set':{'game_name': 'Dawn of War: Soulstorm'}})
 
 
+class Utility(commands.Cog):
+    def __init__(self, client):
+        self.client = client
+
+    @staticmethod
+    async def channel_check(interaction: nextcord.Interaction):
+        """
+        Utility method that is used to check if user is sending commands in channel that allows it
+
+            Args:
+                interaction (nextcord.Interaction): ???
+
+            Returns:
+                bool: True if user can send messages in this channel, False otherwise
+        """
+        channel_check = False
+        collection = await DatabaseSettings.db_connection('Mapiez_Database', 'Channels', interaction=interaction)
+        if collection is None:
+            return
+        check = collection.find_one({'_id': interaction.guild_id})
+        if not check:
+            channel_check = True
+        else:
+            for bot_channel in check['bot_channels']:
+                if interaction.channel_id == int(bot_channel):
+                    channel_check = True
+
+        # sends specific message if command is used in forbidden channel
+        if not channel_check:
+            await interaction.response.send_message(f'Please, use bot commands in bot channel to prevent spam',
+                                                    ephemeral=True)
+        return channel_check
+
+
 def setup(client):
     client.add_cog(MapManager(client))
+    client.add_cog(Utility(client))

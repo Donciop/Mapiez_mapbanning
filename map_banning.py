@@ -1,7 +1,7 @@
-import discord
 import nextcord
 from nextcord.ext import commands
 from nextcord import SlashOption
+from db_operations import Utility
 import random
 
 VIEW_NAME = "RoleView"
@@ -25,7 +25,7 @@ class BanView(nextcord.ui.View):
         if self.maps_left <= self.best_of:
             self.first_player_bool = False
             self.second_player_bool = False
-            embed = discord.Embed(title=':crossed_swords: Mapy zostały wybrane')
+            embed = nextcord.Embed(title=':crossed_swords: Mapy zostały wybrane')
             await interaction.response.edit_message(embed=embed, view=self)
             return
         if interaction.user == self.first_player and self.first_player_bool:
@@ -146,6 +146,10 @@ class ReactionCommands(commands.Cog):
             Returns:
                 None
         """
+        channel_check = await Utility.channel_check(interaction)
+        if not channel_check:
+            return
+
         if random_first == 1:
             players = [first_player, second_player]
             first_player = random.choice(players)
@@ -171,6 +175,10 @@ class ReactionCommands(commands.Cog):
             Returns:
                 None
         """
+        channel_check = await Utility.channel_check(interaction)
+        if not channel_check:
+            return
+
         number = random.randint(0, 2138)
         if number > 1068:
             first_banning = second_player
