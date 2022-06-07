@@ -158,13 +158,10 @@ class Utility(commands.Cog):
         collection = await DatabaseSettings.db_connection('Mapiez_Database', 'Channels', interaction=interaction)
         if collection is None:
             return
-        check = collection.find_one({'_id': interaction.guild_id})
-        if not check:
+
+        check = collection.find_one({'guild_id': interaction.guild_id, 'channel_id': interaction.channel_id})
+        if check and int(check['channel_id']) == int(interaction.channel_id):
             channel_check = True
-        else:
-            for bot_channel in check['bot_channels']:
-                if interaction.channel_id == int(bot_channel):
-                    channel_check = True
 
         # sends specific message if command is used in forbidden channel
         if not channel_check:
