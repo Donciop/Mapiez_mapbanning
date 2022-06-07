@@ -19,6 +19,7 @@ class MapManager(commands.Cog):
         else:
             collection.update_one({'guild_id': interaction.guild_id},
                                   {'$set': {'channel_id': interaction.channel_id}})
+        await interaction.response.send_message(f'Channel {interaction.channel.mention} was set for Mapież!')
 
     @nextcord.slash_command(name='add_map', guild_ids=[218510314835148802])
     async def add_map(self, interaction: nextcord.Interaction, game_name: str, map_name: str, map_emoji: str):
