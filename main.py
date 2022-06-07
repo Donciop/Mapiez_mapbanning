@@ -2,8 +2,6 @@ import nextcord
 from nextcord.ext import commands
 import os
 
-VIEW_NAME = "RoleView"
-
 intents = nextcord.Intents().all()
 
 client = commands.Bot(command_prefix='*', intents=intents, help_command=None)
@@ -14,6 +12,8 @@ def custom_id(view: str, id: int):
 
 
 client.load_extension('map_banning')
+client.load_extension('db_settings')
+client.load_extension('db_operations')
 
 
 @client.event
