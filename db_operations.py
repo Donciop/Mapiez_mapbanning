@@ -7,7 +7,7 @@ class MapManager(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @nextcord.slash_command(name='set_bot_channel', guild_ids=[955933461959569418, 926435401483309066])
+    @nextcord.slash_command(name='set_bot_channel', guild_ids=[955933461959569418, 926435401483309066, 218510314835148802])
     async def set_bot_channel(self, interaction: nextcord.Interaction):
         collection = await DatabaseSettings.db_connection('Mapiez_Database', 'Channels', interaction=interaction)
         if collection is None:
