@@ -7,7 +7,8 @@ class MapManager(commands.Cog):
     def __init__(self, client):
         self.client = client
 
-    @nextcord.slash_command(name='set_bot_channel', guild_ids=[955933461959569418, 926435401483309066, 218510314835148802])
+    @nextcord.slash_command(name='set_bot_channel', guild_ids=[955933461959569418, 926435401483309066])
+    @application_checks.has_permissions(administrator=True)
     async def set_bot_channel(self, interaction: nextcord.Interaction):
         collection = await DatabaseSettings.db_connection('Mapiez_Database', 'Channels', interaction=interaction)
         if collection is None:
@@ -129,13 +130,13 @@ class MapManager(commands.Cog):
 
         await interaction.response.send_message(f'**Available games:** \n{games_list}')
 
-    # @nextcord.slash_command(name='update', guild_ids=[955933461959569418, 218510314835148802], force_global=True)
-    # async def update(self, interaction: nextcord.Interaction):
-    #     collection = await DatabaseSettings.db_connection('Mapiez_Database', 'Maps', interaction=interaction)
-    #     maps = collection.find()
-    #     for mapa in maps:
-    #         collection.update_one({'map_name': mapa['map_name']},
-    #                               {'$set':{'game_name': 'Dawn of War: Soulstorm'}})
+    @nextcord.slash_command(name='update', guild_ids=[218510314835148802])
+    async def update(self, interaction: nextcord.Interaction):
+        collection = await DatabaseSettings.db_connection('Mapiez_Database', 'Maps', interaction=interaction)
+        maps = collection.find()
+        for mapa in maps:
+            collection.update_one({'map_name': mapa['map_name']},
+                                  {'$set': {'game_name': 'Dawn of War: Soulstorm'}})
 
 
 class Utility(commands.Cog):
