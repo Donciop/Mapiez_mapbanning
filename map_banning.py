@@ -1,5 +1,5 @@
 import nextcord
-from nextcord.ext import commands
+from nextcord.ext import commands, application_checks
 from nextcord import SlashOption
 from db_operations import Utility
 import random
@@ -119,6 +119,70 @@ class BanView(nextcord.ui.View):
         await self.button_callback(button, interaction)
 
 
+class FractionView(nextcord.ui.View):
+    def __init__(self):
+        super().__init__(timeout=None)
+
+    @staticmethod
+    async def button_callback(button: nextcord.Button, interaction: nextcord.Interaction):
+        role_id = int(button.custom_id)
+        role = interaction.guild.get_role(role_id)
+
+        assert isinstance(role, nextcord.Role)
+
+        if role in interaction.user.roles:
+            await interaction.user.remove_roles(role)
+            await interaction.response.send_message(f'Your {role.name} role has been removed', ephemeral=True)
+        else:
+            await interaction.user.add_roles(role)
+            await interaction.response.send_message(f'Role {role.name} has been added', ephemeral=True)
+
+    @nextcord.ui.button(label='Necrons', emoji='🔫', style=nextcord.ButtonStyle.primary,
+                        custom_id=str(957267559533658132))
+    async def cs_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
+        await self.button_callback(button, interaction)
+
+    @nextcord.ui.button(label='Imperial Guard', emoji='🔫', style=nextcord.ButtonStyle.primary,
+                        custom_id=str(957268227690496100))
+    async def cs_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
+        await self.button_callback(button, interaction)
+
+    @nextcord.ui.button(label='Chaos', emoji='🔫', style=nextcord.ButtonStyle.primary,
+                        custom_id=str(957268352911437846))
+    async def cs_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
+        await self.button_callback(button, interaction)
+
+    @nextcord.ui.button(label='Space Marines', emoji='🔫', style=nextcord.ButtonStyle.primary,
+                        custom_id=str(957267552386572318))
+    async def cs_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
+        await self.button_callback(button, interaction)
+
+    @nextcord.ui.button(label='Tau', emoji='🔫', style=nextcord.ButtonStyle.primary,
+                        custom_id=str(957267555217727539))
+    async def cs_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
+        await self.button_callback(button, interaction)
+
+    @nextcord.ui.button(label='Sisters of Battle', emoji='🔫', style=nextcord.ButtonStyle.primary,
+                        custom_id=str(957267557407146005))
+    async def cs_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
+        await self.button_callback(button, interaction)
+
+    @nextcord.ui.button(label='Orcs', emoji='🔫', style=nextcord.ButtonStyle.primary,
+                        custom_id=str(957267546040574002))
+    async def cs_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
+        await self.button_callback(button, interaction)
+
+    @nextcord.ui.button(label='Eldar', emoji='🔫', style=nextcord.ButtonStyle.primary,
+                        custom_id=str(957267529439518760))
+    async def cs_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
+        await self.button_callback(button, interaction)
+
+    @nextcord.ui.button(label='Dark Eldar', emoji='🔫', style=nextcord.ButtonStyle.primary,
+                        custom_id=str(957267549735764058))
+    async def cs_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
+        await self.button_callback(button, interaction)
+
+
 class ReactionCommands(commands.Cog):
     def __init__(self, client):
         self.client = client
@@ -189,6 +253,22 @@ class ReactionCommands(commands.Cog):
             f'Numery od `0` do `1067`, banuje **{first_player.display_name}**,'
             f' a numery od `1068` do `2137`, **{second_player.display_name}**.\n\n'
             f'Wylosowany numer to: **{number}**! Pierwszy banuje **{first_banning.display_name}**!')
+
+    @nextcord.slash_command(name='roles', guild_ids=[955933461959569418, 926435401483309066])
+    @application_checks.has_permissions(administrator=True)
+    async def fractions(self, interaction: nextcord.Interaction):
+        """
+        Utility config method for #role channel. Needs OWNER permissions.
+
+            Args:
+               interaction (nextcord.Interaction): Context of the command
+
+            Returns:
+                None
+        """
+        embed = nextcord.Embed(title='Mapież Reaction Roles',
+                               description='React to add or remove any role You want')
+        await interaction.response.send_message(embed=embed, view=FractionView())
 
 
 def setup(client):
