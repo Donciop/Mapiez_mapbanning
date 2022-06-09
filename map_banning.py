@@ -137,47 +137,47 @@ class FractionView(nextcord.ui.View):
             await interaction.user.add_roles(role)
             await interaction.response.send_message(f'Role {role.name} has been added', ephemeral=True)
 
-    @nextcord.ui.button(label='Necrons', emoji='🔫', style=nextcord.ButtonStyle.primary,
+    @nextcord.ui.button(label='Necrons', emoji='<:Necron:984435126752653373>', style=nextcord.ButtonStyle.primary,
                         custom_id=str(957267559533658132))
     async def first_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
         await self.button_callback(button, interaction)
 
-    @nextcord.ui.button(label='Imperial Guard', emoji='🔫', style=nextcord.ButtonStyle.primary,
+    @nextcord.ui.button(label='Imperial Guard', emoji='<:IG:984435125720842330>', style=nextcord.ButtonStyle.primary,
                         custom_id=str(957268227690496100))
     async def second_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
         await self.button_callback(button, interaction)
 
-    @nextcord.ui.button(label='Chaos', emoji='🔫', style=nextcord.ButtonStyle.primary,
+    @nextcord.ui.button(label='Chaos', emoji='<:CSM:984435121077768223>', style=nextcord.ButtonStyle.primary,
                         custom_id=str(957268352911437846))
     async def third_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
         await self.button_callback(button, interaction)
 
-    @nextcord.ui.button(label='Space Marines', emoji='🔫', style=nextcord.ButtonStyle.primary,
+    @nextcord.ui.button(label='Space Marines', emoji='<:SM:984435130091311154>', style=nextcord.ButtonStyle.primary,
                         custom_id=str(957267552386572318))
     async def fourth_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
         await self.button_callback(button, interaction)
 
-    @nextcord.ui.button(label='Tau', emoji='🔫', style=nextcord.ButtonStyle.primary,
+    @nextcord.ui.button(label='Tau', emoji='<:Tau:984435133044113478>', style=nextcord.ButtonStyle.primary,
                         custom_id=str(957267555217727539))
     async def fifth_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
         await self.button_callback(button, interaction)
 
-    @nextcord.ui.button(label='Sisters of Battle', emoji='🔫', style=nextcord.ButtonStyle.primary,
+    @nextcord.ui.button(label='Sisters of Battle', emoji='<:SoB:984435131358011452>', style=nextcord.ButtonStyle.primary,
                         custom_id=str(957267557407146005))
     async def sixth_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
         await self.button_callback(button, interaction)
 
-    @nextcord.ui.button(label='Orcs', emoji='🔫', style=nextcord.ButtonStyle.primary,
+    @nextcord.ui.button(label='Orcs', emoji='<:Ork:984435128682029066>', style=nextcord.ButtonStyle.primary,
                         custom_id=str(957267546040574002))
     async def seventh_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
         await self.button_callback(button, interaction)
 
-    @nextcord.ui.button(label='Eldar', emoji='🔫', style=nextcord.ButtonStyle.primary,
+    @nextcord.ui.button(label='Eldar', emoji='<:Eldar:984435124206719026>', style=nextcord.ButtonStyle.primary,
                         custom_id=str(957267529439518760))
     async def eight_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
         await self.button_callback(button, interaction)
 
-    @nextcord.ui.button(label='Dark Eldar', emoji='🔫', style=nextcord.ButtonStyle.primary,
+    @nextcord.ui.button(label='Dark Eldar', emoji='<:DE:984435122751275028>', style=nextcord.ButtonStyle.primary,
                         custom_id=str(957267549735764058))
     async def nineth_button(self, button: nextcord.Button, interaction: nextcord.Interaction):
         await self.button_callback(button, interaction)
