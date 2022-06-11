@@ -30,7 +30,7 @@ async def on_ready():
 
 
 @client.event
-async def on_command_error(ctx, error):
+async def on_application_command_error(ctx, error):
     if isinstance(error, errors.ApplicationMissingPermissions):
         await ctx.send(f'You don\'t have {error.missing_permissions} permission to use this command.', delete_after=5)
 
